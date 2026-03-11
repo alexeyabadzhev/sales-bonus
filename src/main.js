@@ -22,13 +22,13 @@ function calculateBonusByProfit(index, total, seller) {
     const { profit } = seller;
 
     if (index === 0) {
-        return 15;
+        return 0.15;
     }
     if (index === 1 || index === 2) {
-        return 10;
+        return 0.1;
     }
     if (index === 3) {
-        return 5;
+        return 0.05;
     }
     return 0;
 }
@@ -104,10 +104,10 @@ function analyzeSalesData(data, options) {
     middleStatistic.sort((a,b) => b.profit - a.profit);
 
     // @TODO: Назначение премий на основе ранжирования
-    const summary = middleStatistic.length;
+    const total = middleStatistic.length;
     middleStatistic.forEach((seller, index) => {
-        const sellerBonus = calculateBonus(index, summary, seller);
-        seller.bonus = seller.profit * sellerBonus / 100;
+        const sellerBonus = calculateBonus(index, total, seller);
+        seller.bonus = seller.profit * sellerBonus;
 
         seller.top_products = Object.entries(seller.products_sold)
             .map(([sku, quantity]) => ({sku, quantity}))
