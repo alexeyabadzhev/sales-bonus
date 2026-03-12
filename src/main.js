@@ -22,13 +22,13 @@ function calculateBonusByProfit(index, total, seller) {
     const { profit } = seller;
 
     if (index === 0) {
-        return 0.15;
+        return profit * 0.15;
     }
     if (index === 1 || index === 2) {
-        return 0.1;
+        return profit * 0.1;
     }
     if (index === 3) {
-        return 0.05;
+        return profit * 0.05;
     }
     return 0;
 }
@@ -45,12 +45,15 @@ function analyzeSalesData(data, options) {
         || !Array.isArray(data.sellers)
         || !Array.isArray(data.products)
         || !Array.isArray(data.purchase_records)
-        || data.sellers.length === 0
+    ) {
+        console.error('Входящие данные не верны!')
+    };
+    if (data.sellers.length === 0
         || data.products.length === 0
         || data.purchase_records.length === 0
     ) {
-        console.error('Входящие данные не верны!')
-    }
+        console.error('Входящие данные пустые!')
+    };
 
     // @TODO: Проверка наличия опций
     const { calculateBonus, calculateRevenue } = options;
@@ -106,8 +109,7 @@ function analyzeSalesData(data, options) {
     // @TODO: Назначение премий на основе ранжирования
     const total = middleStatistic.length;
     middleStatistic.forEach((seller, index) => {
-        const sellerBonus = calculateBonus(index, total, seller);
-        seller.bonus = seller.profit * sellerBonus;
+        seller.bonus = calculateBonus(index, total, seller);
 
         seller.top_products = Object.entries(seller.products_sold)
             .map(([sku, quantity]) => ({sku, quantity}))
