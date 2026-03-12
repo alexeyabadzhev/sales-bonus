@@ -50,7 +50,7 @@ function analyzeSalesData(data, options) {
     };
     if (data.sellers.length === 0
         || data.products.length === 0
-        || data.purchase_records.length === 0
+        || data.purchase_records === []
     ) {
         console.error('Входящие данные пустые!')
     };
