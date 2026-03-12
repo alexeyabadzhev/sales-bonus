@@ -46,19 +46,19 @@ function analyzeSalesData(data, options) {
         || !Array.isArray(data.products)
         || !Array.isArray(data.purchase_records)
     ) {
-        console.error('Входящие данные не верны!')
+        throw new Error('Входящие данные не верны!')
     };
-    if (data.sellers.length === 0
-        || data.products.length === 0
-        || data.purchase_records === []
+    if (!data.sellers.length
+        || !data.products.length
+        || !data.purchase_records.length
     ) {
-        console.error('Входящие данные пустые!')
+        throw new Error('Входящие данные пустые!')
     };
 
     // @TODO: Проверка наличия опций
     const { calculateBonus, calculateRevenue } = options;
     if (!calculateBonus || !calculateRevenue) {
-        console.error('Не достаточно обработчиков!')
+        throw new Error('Не достаточно обработчиков!')
     }
 
     // @TODO: Подготовка промежуточных данных для сбора статистики
